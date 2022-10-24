@@ -12,6 +12,9 @@ import java.math.BigInteger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 // https://ethereum.stackexchange.com/questions/106740/get-the-same-result-of-abi-encode-function-in-java
+// function tryAbiEncode (address  _address, uint8 _amount) public pure returns (bytes memory) {
+//     return abi.encode("\x19Ethereum Signed Message:\n",_address, _amount);
+// }
 
 public class AbiEncodingTest {
 
