@@ -9,6 +9,7 @@ import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.abi.datatypes.generated.Uint64;
+import org.web3j.crypto.Hash;
 import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
@@ -55,7 +56,20 @@ public class AbiEncodingTest {
 
         System.out.println(dataForSign);
 
+        String ret = Numeric.toHexString(Numeric.hexStringToByteArray(dataForSign));
+        System.out.println(ret);
+        String hash = Hash.sha3(dataForSign);
+        System.out.println(hash);
+
+
     }
+    /*
+    public static String sha3(String hexInput) {
+        byte[] bytes = Numeric.hexStringToByteArray(hexInput);
+        byte[] result = sha3(bytes);
+        return Numeric.toHexString(result);
+    }
+    */
 
 }
 
