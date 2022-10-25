@@ -27,6 +27,7 @@ public class EthCallDemo {
         Function function = new Function("addNum", Arrays.asList(new Uint8(8)),
                 Collections.emptyList());
         final String functionEncode  = FunctionEncoder.encode(function);
+        System.out.println(functionEncode);
         String from = "0xb6B78b6F7C461d9D33d5D8c9f9366215C416AeB1";
         Transaction transaction = Transaction.createEthCallTransaction(from,
                 "0x966a31ff3eb02144369887d4bd3a9238a7ff925c",functionEncode);
@@ -35,3 +36,34 @@ public class EthCallDemo {
         System.out.println(Numeric.toBigInt(value));
     }
 }
+
+
+
+/*
+
+curl https://eth-goerli.g.alchemy.com/v2/-s1zkDpkEmnjF4wIk8pLsiJBuxWelYV0 \
+--request POST --header "Content-Type: application/json" --data \
+'{
+    "jsonrpc":"2.0",
+    "method":"eth_call",
+    "params":[
+        {
+            "to":"0x966a31ff3eb02144369887d4bd3a9238a7ff925c",
+            "data":"0xd56aae550000000000000000000000000000000000000000000000000000000000000008"
+        }
+    ],
+    "id":1
+}'
+
+# return value
+{
+    "jsonrpc":"2.0",
+    "id":1,
+    "result":"0x0000000000000000000000000000000000000000000000000000000000000009"
+}
+
+*/
+
+
+
+
