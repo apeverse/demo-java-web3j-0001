@@ -6,6 +6,10 @@ import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.DynamicStruct;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
+import org.web3j.abi.datatypes.generated.Bytes32;
+import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.abi.datatypes.generated.Uint64;
+import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
 
@@ -31,6 +35,26 @@ public class AbiEncodingTest {
                 "000000000000000000000000000000000000000000000000000000000000000a" +
                 "000000000000000000000000000000000000000000000000000000000000001a" +
                 "19457468657265756d205369676e6564204d6573736167653a0a000000000000", result);
+
+        Bytes32 node = new Bytes32(
+                Numeric.hexStringToByteArray(
+                        "0xc6cbe29b02227ba1bb49c0da438c639867e06abe8377a4e69e75a8b705b17b10"
+                )
+        );
+
+        final long date = (System.currentTimeMillis() / 1000 / (24 * 60 * 60));
+
+        String dataForSign = "0x" +
+                TypeEncoder.encode(
+                        new DynamicStruct(
+                            new Uint64(BigInteger.valueOf(date)),
+                            node,
+                            new Uint256(new BigInteger("1600000000000000"))
+                        )
+                );
+
+        System.out.println(dataForSign);
+
     }
 
 }

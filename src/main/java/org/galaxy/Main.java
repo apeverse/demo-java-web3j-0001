@@ -70,3 +70,10 @@ public class Main {
 }
 
 
+/*
+
+后端需要签名 => 对数据进行签名 => 数据是什么？=> 零散的数据被编码在一起（abi.encode）=> 对编码后的数据求hash => 用private_key与hash进行签名运算 => signature
+
+链端需要验签 => signature以及零散的数据 => 零散的数据被编码在一起（abi.encode） => 对编码后的数据求hash => 验证hash与signature是否匹配 => 复原出地址
+
+*/
