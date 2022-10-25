@@ -63,6 +63,7 @@ public class AbiEncodingTest {
 
 
     }
+
     /*
     public static String sha3(String hexInput) {
         byte[] bytes = Numeric.hexStringToByteArray(hexInput);

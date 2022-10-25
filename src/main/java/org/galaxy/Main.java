@@ -1,8 +1,11 @@
 package org.galaxy;
 
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.ECKeyPair;
-import org.web3j.crypto.WalletUtils;
+import org.web3j.abi.TypeEncoder;
+import org.web3j.abi.datatypes.DynamicStruct;
+import org.web3j.abi.datatypes.generated.Bytes32;
+import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.abi.datatypes.generated.Uint64;
+import org.web3j.crypto.*;
 import org.web3j.utils.Numeric;
 
 import java.io.File;
@@ -44,26 +47,58 @@ public class Main {
         testGenerateWalletFile(fileName);
     }
 
-    public static void testLoadJsonCredentials() throws Exception {
-        Credentials credentials =
-                WalletUtils.loadJsonCredentials(
-                        PASSWORD,
-                        convertStreamToString(
-                                new FileInputStream(new File("/tmp/a.json"))
-                        ));
+    public static Credentials testLoadJsonCredentials(String keyFilePath) throws Exception {
+        Credentials credentials = WalletUtils.loadJsonCredentials(
+                PASSWORD,
+                convertStreamToString(new FileInputStream(new File(keyFilePath)))
+        );
+
+        return credentials;
 
         // assertEquals(credentials, (CREDENTIALS));
-        System.out.println(credentials.getAddress());
-        System.out.println(credentials.getEcKeyPair().getPrivateKey());
-        System.out.println(credentials.getEcKeyPair().getPublicKey());
     }
 
     public static void main(String[] args) throws Exception {
 
         System.out.println("Hello world!");
-        // testGenerateLightWalletFile();
-        testLoadJsonCredentials();
-        System.out.println(new FileInputStream(new File("/tmp/a.json")));
+        // testGenerateLightWalletFile(); // to generate 0xef678007d18427e6022059dbc264f27507cd1ffc.json
+        Credentials credentials = testLoadJsonCredentials("./keystore/0xef678007d18427e6022059dbc264f27507cd1ffc.json");
+
+        System.out.println(credentials.getAddress());
+        System.out.println(credentials.getEcKeyPair().getPrivateKey());
+        System.out.println(credentials.getEcKeyPair().getPublicKey());
+
+        Bytes32 node = new Bytes32(
+                Numeric.hexStringToByteArray(
+                        "0xc6cbe29b02227ba1bb49c0da438c639867e06abe8377a4e69e75a8b705b17b10"
+                )
+        );
+
+        final long date = (System.currentTimeMillis() / 1000 / (24 * 60 * 60));
+
+        String dataForSign = "0x" +
+                TypeEncoder.encode(
+                        new DynamicStruct(
+                                new Uint64(BigInteger.valueOf(date)),
+                                node,
+                                new Uint256(new BigInteger("1600000000000000"))
+                        )
+                );
+
+        System.out.println(dataForSign);
+
+        String ret = Numeric.toHexString(Numeric.hexStringToByteArray(dataForSign));
+        System.out.println(ret);
+        String hash = Hash.sha3(dataForSign);
+        System.out.println("Hash: " + hash);
+
+        Sign.SignatureData signature = Sign.signMessage(Numeric.hexStringToByteArray(dataForSign), credentials.getEcKeyPair());
+        System.out.println(
+                "0x" +
+                Numeric.toHexStringNoPrefix(signature.getR()) +
+                Numeric.toHexStringNoPrefix(signature.getS()) +
+                Numeric.toHexStringNoPrefix(signature.getV())
+        );
 
     }
 
@@ -75,5 +110,17 @@ public class Main {
 后端需要签名 => 对数据进行签名 => 数据是什么？=> 零散的数据被编码在一起（abi.encode）=> 对编码后的数据求hash => 用private_key与hash进行签名运算 => signature
 
 链端需要验签 => signature以及零散的数据 => 零散的数据被编码在一起（abi.encode） => 对编码后的数据求hash => 验证hash与signature是否匹配 => 复原出地址
+
+Node: 0xc6cbe29b02227ba1bb49c0da438c639867e06abe8377a4e69e75a8b705b17b10
+Amount: 1600000000000000
+Signature: 0x3c50c5d8242d78430eb2c54552aaff7843f7a43c0487d621e1910837bd74e987193853c679c8ba83737a0eb6a1406eef87d8b634c56c948a8ae8b767dbfd30331c
+R: 0x3c50c5d8242d78430eb2c54552aaff7843f7a43c0487d621e1910837bd74e987
+S: 0x193853c679c8ba83737a0eb6a1406eef87d8b634c56c948a8ae8b767dbfd3033
+V: 0x1c
+
+Address: 0xef678007D18427E6022059Dbc264f27507CD1ffC
+Hash: 0x217bf2e50404f0fcdfbef0fb71c21c9f15fd0f9a4a5c9a5bff497676fcaacfc7
+
+https://goerli.etherscan.io/address/0x12663c108813732Ba75664260a71c4f7261456aB#readContract
 
 */
