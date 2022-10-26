@@ -29,7 +29,8 @@ import java.util.List;
  * @Description: 调用合约方法
  */
 public class EthSendTransaction {
-    public static void main(String[] args) throws IOException {
+    @Test
+    public void testEthCall() throws IOException {
         String reqUrl = "https://eth-goerli.g.alchemy.com/v2/-s1zkDpkEmnjF4wIk8pLsiJBuxWelYV0";
 
         final Web3j web3j = Web3j.build(new HttpService(reqUrl));

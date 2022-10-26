@@ -1,5 +1,6 @@
 package org.galaxy;
 
+import org.junit.jupiter.api.Test;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.generated.Uint8;
@@ -19,7 +20,8 @@ import java.util.Collections;
  * @Description: 调用合约方法
  */
 public class EthCall {
-    public static void main(String[] args) throws IOException {
+    @Test
+    public void testEthCall() throws IOException {
         String reqUrl = "https://eth-goerli.g.alchemy.com/v2/-s1zkDpkEmnjF4wIk8pLsiJBuxWelYV0";
 
         final Web3j web3j = Web3j.build(new HttpService(reqUrl));

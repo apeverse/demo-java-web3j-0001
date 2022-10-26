@@ -67,43 +67,41 @@ public class Main {
         System.out.println("Hello world!");
         // testGenerateLightWalletFile(); // to generate 0xef678007d18427e6022059dbc264f27507cd1ffc.json
         Credentials credentials = testLoadJsonCredentials("./keystore/0xef678007d18427e6022059dbc264f27507cd1ffc.json");
-//        testGenerateLightWalletFile();
-        System.out.println(credentials.getAddress());
-//        System.out.println(credentials.getAddress());
-//        System.out.println(credentials.getEcKeyPair().getPrivateKey());
-//        System.out.println(credentials.getEcKeyPair().getPublicKey());
-//
-//        Bytes32 node = new Bytes32(
-//                Numeric.hexStringToByteArray(
-//                        "0xc6cbe29b02227ba1bb49c0da438c639867e06abe8377a4e69e75a8b705b17b10"
-//                )
-//        );
-//
-//        final long date = (System.currentTimeMillis() / 1000 / (24 * 60 * 60));
-//
-//        String dataForSign = "0x" +
-//                TypeEncoder.encode(
-//                        new DynamicStruct(
-//                                new Uint64(BigInteger.valueOf(date)),
-//                                node,
-//                                new Uint256(new BigInteger("1600000000000000"))
-//                        )
-//                );
-//
-//        System.out.println(dataForSign);
-//
-//        String ret = Numeric.toHexString(Numeric.hexStringToByteArray(dataForSign));
-//        System.out.println(ret);
-//        String hash = Hash.sha3(dataForSign);
-//        System.out.println("Hash: " + hash);
-//
-//        Sign.SignatureData signature = Sign.signMessage(Numeric.hexStringToByteArray(dataForSign), credentials.getEcKeyPair());
-//        System.out.println(
-//                "0x" +
-//                Numeric.toHexStringNoPrefix(signature.getR()) +
-//                Numeric.toHexStringNoPrefix(signature.getS()) +
-//                Numeric.toHexStringNoPrefix(signature.getV())
-//        );
+        System.out.println("Address: " + credentials.getAddress());
+        System.out.println("Private Key: " + credentials.getEcKeyPair().getPrivateKey());
+        System.out.println("Public Key: " + credentials.getEcKeyPair().getPublicKey());
+
+        Bytes32 node = new Bytes32(
+                Numeric.hexStringToByteArray(
+                        "0xc6cbe29b02227ba1bb49c0da438c639867e06abe8377a4e69e75a8b705b17b10"
+                )
+        );
+
+        final long date = (System.currentTimeMillis() / 1000 / (24 * 60 * 60));
+
+        String dataForSign = "0x" +
+                TypeEncoder.encode(
+                        new DynamicStruct(
+                                new Uint64(BigInteger.valueOf(date)),
+                                node,
+                                new Uint256(new BigInteger("1600000000000000"))
+                        )
+                );
+
+        System.out.println(dataForSign);
+
+        String ret = Numeric.toHexString(Numeric.hexStringToByteArray(dataForSign));
+        System.out.println(ret);
+        String hash = Hash.sha3(dataForSign);
+        System.out.println("Hash: " + hash);
+
+        Sign.SignatureData signature = Sign.signMessage(Numeric.hexStringToByteArray(dataForSign), credentials.getEcKeyPair());
+        System.out.println(
+                "0x" +
+                Numeric.toHexStringNoPrefix(signature.getR()) +
+                Numeric.toHexStringNoPrefix(signature.getS()) +
+                Numeric.toHexStringNoPrefix(signature.getV())
+        );
 
     }
 
