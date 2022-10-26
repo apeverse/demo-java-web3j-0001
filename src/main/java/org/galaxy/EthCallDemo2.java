@@ -100,6 +100,48 @@ public class EthCallDemo2 {
         System.out.println(balance);
     }
 
+
+    /**
+     * 添加测试转账demo
+     * @throws Exception
+     */
+    @Test
+    public void testTranform() throws Exception {
+
+        String reqUrl = "https://eth-goerli.g.alchemy.com/v2/-s1zkDpkEmnjF4wIk8pLsiJBuxWelYV0";
+
+        final Web3j web3j = Web3j.build(new HttpService(reqUrl));
+        // https://goerli.etherscan.io/address/0x8A5FD1838Bad8f1731Ea31c2cF2ba3b8C9942b58#code
+
+        // 获取私钥
+        final Credentials credentials = Main.testLoadJsonCredentials();
+
+        // 获取nonce
+        final BigInteger nonce = web3j.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.LATEST)
+                .send().getTransactionCount();
+
+
+        String to = "0xe26f015ba6b8c400cE327CeEBE34B717e6897e69";
+        // 创建交易
+        /**
+         *  createTransaction(
+         *             BigInteger nonce,
+         *             BigInteger gasPrice,
+         *             BigInteger gasLimit,
+         *             String to,
+         *             BigInteger value,
+         *             String data)
+         */
+
+        final RawTransaction transaction = RawTransaction.createTransaction(nonce ,
+                new BigInteger("35000000000"), BigInteger.valueOf(400000L),
+                to,new BigInteger("900000000000000000"),"");
+
+        final byte[] signMesageBytes = TransactionEncoder.signMessage(transaction,credentials);
+        final EthSendTransaction send = web3j.ethSendRawTransaction(Numeric.toHexString(signMesageBytes)).send();
+        System.out.println("nonce:  "+nonce);
+        System.out.println(JSONUtil.toJsonStr(send));
+    }
 }
 
 
