@@ -4,20 +4,16 @@ import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.Test;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
-import org.web3j.abi.TypeDecoder;
 import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.Array;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Utf8String;
-import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.request.Transaction;
-import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Numeric;
 
@@ -32,7 +28,7 @@ import java.util.List;
  * @Date 2022/10/24
  * @Description: 调用合约方法
  */
-public class EthCallDemo2 {
+public class EthSendTransaction {
     public static void main(String[] args) throws IOException {
         String reqUrl = "https://eth-goerli.g.alchemy.com/v2/-s1zkDpkEmnjF4wIk8pLsiJBuxWelYV0";
 
@@ -54,7 +50,7 @@ public class EthCallDemo2 {
      * 测试发起交易
      */
     @Test
-    public void testSendTx() throws Exception {
+    public void testInteractWithContract() throws Exception {
         String reqUrl = "https://eth-goerli.g.alchemy.com/v2/-s1zkDpkEmnjF4wIk8pLsiJBuxWelYV0";
 
         final Web3j web3j = Web3j.build(new HttpService(reqUrl));
@@ -74,13 +70,13 @@ public class EthCallDemo2 {
                 Arrays.asList(new Utf8String("111")),
                 Collections.emptyList());
          String encodeData = FunctionEncoder.encode(function);
-        // 创建交易
+        // 创建交易 35000000000, 35 GWei
        // createTransaction(BigInteger nonce, BigInteger gasPrice, BigInteger gasLimit, String to, String data)
         final RawTransaction transaction = RawTransaction.createTransaction(nonce ,
                 new BigInteger("35000000000"), BigInteger.valueOf(400000L),
                 "0x8A5FD1838Bad8f1731Ea31c2cF2ba3b8C9942b58", encodeData);
         final byte[] signMesageBytes = TransactionEncoder.signMessage(transaction,credentials);
-        final EthSendTransaction send = web3j.ethSendRawTransaction(Numeric.toHexString(signMesageBytes)).send();
+        final org.web3j.protocol.core.methods.response.EthSendTransaction send = web3j.ethSendRawTransaction(Numeric.toHexString(signMesageBytes)).send();
         System.out.println("nonce:  "+nonce);
         System.out.println(JSONUtil.toJsonStr(send));
     }
@@ -106,7 +102,7 @@ public class EthCallDemo2 {
      * @throws Exception
      */
     @Test
-    public void testTranform() throws Exception {
+    public void testTransferEther() throws Exception {
 
         String reqUrl = "https://eth-goerli.g.alchemy.com/v2/-s1zkDpkEmnjF4wIk8pLsiJBuxWelYV0";
 
@@ -122,7 +118,7 @@ public class EthCallDemo2 {
 
 
         String to = "0xe26f015ba6b8c400cE327CeEBE34B717e6897e69";
-        // 创建交易
+        // 创建交易 35000000000, 35 GWei
         /**
          *  createTransaction(
          *             BigInteger nonce,
@@ -138,7 +134,7 @@ public class EthCallDemo2 {
                 to,new BigInteger("900000000000000000"),"");
 
         final byte[] signMesageBytes = TransactionEncoder.signMessage(transaction,credentials);
-        final EthSendTransaction send = web3j.ethSendRawTransaction(Numeric.toHexString(signMesageBytes)).send();
+        final org.web3j.protocol.core.methods.response.EthSendTransaction send = web3j.ethSendRawTransaction(Numeric.toHexString(signMesageBytes)).send();
         System.out.println("nonce:  "+nonce);
         System.out.println(JSONUtil.toJsonStr(send));
     }

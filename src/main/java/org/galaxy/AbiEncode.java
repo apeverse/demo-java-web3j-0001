@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 //     return abi.encode("\x19Ethereum Signed Message:\n",_address, _amount);
 // }
 
-public class AbiEncodingTest {
+public class AbiEncode {
 
     @Test
     public void testAbiEncoding() {

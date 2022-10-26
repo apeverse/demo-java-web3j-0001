@@ -18,7 +18,7 @@ import java.util.Collections;
  * @Date 2022/10/24
  * @Description: 调用合约方法
  */
-public class EthCallDemo {
+public class EthCall {
     public static void main(String[] args) throws IOException {
         String reqUrl = "https://eth-goerli.g.alchemy.com/v2/-s1zkDpkEmnjF4wIk8pLsiJBuxWelYV0";
 
