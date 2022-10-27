@@ -59,14 +59,14 @@ public class Main {
     }
 
     public static Credentials testLoadJsonCredentials() throws Exception {
-        return testLoadJsonCredentials("./keystore/0xef678007d18427e6022059dbc264f27507cd1ffc.json");
+        return testLoadJsonCredentials("./keystore/key.json");
     }
 
     public static void main(String[] args) throws Exception {
 
         System.out.println("Hello world!");
-        // testGenerateLightWalletFile(); // to generate 0xef678007d18427e6022059dbc264f27507cd1ffc.json
-        Credentials credentials = testLoadJsonCredentials("./keystore/0xef678007d18427e6022059dbc264f27507cd1ffc.json");
+        // testGenerateLightWalletFile(); // to generate key.json
+        Credentials credentials = testLoadJsonCredentials("./keystore/key.json");
         System.out.println("Address: " + credentials.getAddress());
         System.out.println("Private Key: " + credentials.getEcKeyPair().getPrivateKey());
         System.out.println("Public Key: " + credentials.getEcKeyPair().getPublicKey());
