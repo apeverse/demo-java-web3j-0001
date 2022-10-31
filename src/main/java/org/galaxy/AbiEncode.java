@@ -64,17 +64,19 @@ public class AbiEncode {
 
     }
 
-    /*
-    public static String sha3(String hexInput) {
-        byte[] bytes = Numeric.hexStringToByteArray(hexInput);
-        byte[] result = sha3(bytes);
-        return Numeric.toHexString(result);
-    }
-    */
+
 
 }
 
 /*
+
+public static String sha3(String hexInput) {
+    byte[] bytes = Numeric.hexStringToByteArray(hexInput);
+    byte[] result = sha3(bytes);
+    return Numeric.toHexString(result);
+}
+
+
 https://nullbeans.com/what-is-a-biginteger-and-how-to-use-it-in-java/
 
 BigIntegers are Immutable
