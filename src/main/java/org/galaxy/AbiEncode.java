@@ -74,3 +74,24 @@ public class AbiEncode {
 
 }
 
+/*
+https://nullbeans.com/what-is-a-biginteger-and-how-to-use-it-in-java/
+
+BigIntegers are Immutable
+Notice that each time you perform an arithmetic operation, a new BigInteger instance is produced.
+This is because already instantiated instances of BigIntegers are immutable.
+In other words, once you have created an instance, you cannot change the value of that instance.
+One can only assume that this was done by the Java creators because it was simpler to implement and less error-prone,
+However, this also comes at the cost of memory as for each new instance, a new place in the JVM memory is reserved.
+
+What is the maximum size of a BigInteger in Java
+
+The officially supported range of values for Big integers is -[(2^Integer.MAX_VALUE)-1] to +[(2Integer.MAX_VALUE) -1] .
+However, larger values are theoretically possible and are technically limited to the amount of memory the Java virtual machine has.
+You can read more about this in the official documentation. https://docs.oracle.com/javase/8/docs/api/java/math/BigInteger.html
+In other words, there is official support for the given range of numbers in BigIntegers, however,
+you can unofficially use it for even larger numbers if you have enough computing resources for it.
+
+*/
+
+
